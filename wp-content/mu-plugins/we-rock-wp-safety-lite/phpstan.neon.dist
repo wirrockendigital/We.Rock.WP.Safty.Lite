@@ -1,0 +1,12 @@
+parameters:
+    level: 5
+    phpVersion: 70400
+    paths:
+        - ../we-rock-wp-safety-lite.php
+        - src
+        - tests
+    bootstrapFiles:
+        - tests/bootstrap.php
+    excludePaths:
+        analyse:
+            - vendor
