@@ -1,6 +1,6 @@
 # We.Rock.WP.Safety.Lite
 
-We.Rock.WP.Safety.Lite is a lightweight WordPress must-use (MU) plugin for practical WordPress security hardening. It reduces information exposed by login errors, anonymous author URLs, and WordPress REST API user routes; removes XML-RPC pingback methods and the `X-Pingback` header; and adds administrator-only Site Health checks. The plugin uses WordPress Core hooks and has no runtime Composer dependencies.
+We.Rock.WP.Safety.Lite is a lightweight WordPress must-use (MU) plugin for practical WordPress security hardening. It reduces information exposed by login errors, anonymous author URLs, and WordPress REST API user routes; removes XML-RPC pingback methods and the `X-Pingback` header; and adds administrator-only Site Health checks, including checks for NinjaFirewall and WP 2FA. The plugin uses WordPress Core hooks and has no runtime Composer dependencies.
 
 ## Required security stack and responsibility
 
@@ -10,7 +10,7 @@ We.Rock.WP.Safety.Lite is a lightweight WordPress must-use (MU) plugin for pract
 
 ## Preferred installation: use an AI agent
 
-Ask an AI agent with authorized access to the target WordPress installation to follow [INSTALLATION.md](INSTALLATION.md). The agent can inspect the existing site, install the MU plugin, merge both `.htaccess` blocks, configure NinjaFirewall from the [sanitized settings guide](NINJAFIREWALL-SETTINGS.md), and verify each layer. This is the preferred installation path because it preserves site-specific rules and checks the result on the actual server.
+Ask an AI agent with authorized access to the target WordPress installation to follow [INSTALLATION.md](INSTALLATION.md). The agent can inspect the existing site, install the MU plugin, merge both `.htaccess` blocks, configure NinjaFirewall from the [sanitized settings guide](NINJAFIREWALL-SETTINGS.md), install and configure WP 2FA, and verify each layer. This is the preferred installation path because it preserves site-specific rules and checks the result on the actual server.
 
 ## Manual installation of the MU component
 
@@ -30,6 +30,8 @@ Define feature constants in `wp-config.php` before WordPress loads if you need t
 This project is designed to be used together with server-level settings in **both** the WordPress root `.htaccess` file and `wp-content/uploads/.htaccess`. The MU plugin does not write either file. Follow [MANUAL-HARDENING.txt](MANUAL-HARDENING.txt) to review and manually apply the extracted We.Rock hardening blocks. Back up the existing files, adapt the rules to the web server and site, test on staging, and check the site immediately after each change. The rules include a long-lived HSTS header and a Content Security Policy baseline, so review their effect before applying them to a live site.
 
 For a maintained web application firewall, we recommend [NinjaFirewall (WP Edition) by NinTechNet](https://wordpress.org/plugins/ninjafirewall/). See the [NinTechNet website](https://nintechnet.com/ninjafirewall/wp-edition/) for the vendor's product information. NinjaFirewall is a separate WordPress plugin that you install and configure independently. The [sanitized settings guide](NINJAFIREWALL-SETTINGS.md) records the recommended configuration without publishing a site-specific export.
+
+For WordPress account protection, we also recommend [WP 2FA by Melapress](https://wordpress.org/plugins/wp-2fa/). See the [Melapress product page](https://melapress.com/wordpress-2fa/) and [setup guide](https://melapress.com/support/kb/wp-2fa-plugin-getting-started/) for installation and configuration. Enable two-factor authentication for administrator and other privileged accounts according to the site's role model, have each user complete their own enrollment and store their backup codes securely, then verify login and recovery. WP 2FA is an additional recommended layer alongside the required MU plugin, `.htaccess`, and NinjaFirewall stack.
 
 ## License
 

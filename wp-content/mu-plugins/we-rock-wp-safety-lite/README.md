@@ -2,7 +2,7 @@
 
 We.Rock.WP.Safety.Lite ist ein kleines WordPress-MU-Plugin fuer stabile, risikoarme Haertungen in WordPress 6.5 oder neuer. Es laedt ohne Composer-Abhaengigkeiten zur Laufzeit, nutzt nur WordPress-Core-Hooks und fuehrt keine externen Netzwerkanfragen aus.
 
-Der vollstaendige empfohlene Einsatz umfasst dieses MU-Plugin, die Hardening-Bloecke in der Root- und Upload-`.htaccess` sowie eine passend konfigurierte NinjaFirewall. Der bevorzugte Installationsweg ist in der Repository-Datei `INSTALLATION.md` beschrieben. Anwender sind fuer die Pruefung der Regeln, Backups und die Funktion ihrer Website selbst verantwortlich.
+Der vollstaendige empfohlene Einsatz umfasst dieses MU-Plugin, die Hardening-Bloecke in der Root- und Upload-`.htaccess` sowie eine passend konfigurierte NinjaFirewall. Fuer die Absicherung von Benutzerkonten empfehlen wir zusaetzlich [WP 2FA von Melapress](https://wordpress.org/plugins/wp-2fa/). Der bevorzugte Installationsweg ist in der Repository-Datei `INSTALLATION.md` beschrieben. Anwender sind fuer die Pruefung der Regeln, Backups und die Funktion ihrer Website selbst verantwortlich.
 
 ## Funktionen
 

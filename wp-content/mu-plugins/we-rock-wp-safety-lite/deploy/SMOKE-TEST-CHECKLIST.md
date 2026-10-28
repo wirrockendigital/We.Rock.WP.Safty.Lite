@@ -5,15 +5,15 @@
 - Backup der Dateien und Datenbank ist vorhanden.
 - Staging-Umgebung ist erreichbar.
 - Externe Sicherheitskomponenten wie NinjaFirewall bleiben aktiv.
-- WP 2FA ist konfiguriert und Backup-Codes sind verfuegbar.
+- Falls WP 2FA installiert ist: Das Plugin ist konfiguriert und Backup-Codes sind verfuegbar.
 
 ## Nach Aktivierung des MU-Plugins
 
 - Oeffentliche Startseite laedt mit HTTP 200.
 - `wp-login.php` laedt normal.
 - Anmeldung mit Benutzername und Passwort funktioniert.
-- WP-2FA-Abfrage funktioniert.
-- WP-2FA-Backup-Code funktioniert.
+- Falls WP 2FA installiert ist: Die Abfrage funktioniert.
+- Falls WP 2FA installiert ist: Ein Backup-Code funktioniert.
 - `wp-admin/` laedt normal.
 - `wp-admin/admin-ajax.php` bleibt erreichbar.
 - Gutenberg-Editor laedt und speichert einen Testbeitrag.
