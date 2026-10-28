@@ -3,6 +3,7 @@ parameters:
     phpVersion: 70400
     paths:
         - ../we-rock-wp-safety-lite.php
+        - bootstrap.php
         - src
         - tests
     bootstrapFiles:

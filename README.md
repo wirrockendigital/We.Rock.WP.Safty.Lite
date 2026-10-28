@@ -19,6 +19,16 @@ Ask an AI agent with authorized access to the target WordPress installation to f
 3. Open **Tools → Site Health** in WordPress and review the We.Rock checks.
 4. Test the homepage, login, administrator area, media, and REST API using the [smoke-test checklist](wp-content/mu-plugins/we-rock-wp-safety-lite/deploy/SMOKE-TEST-CHECKLIST.md).
 
+## Update the MU plugin from GitHub
+
+An administrator with permission to update plugins can open **Tools → We.Rock Updates** (or **Network Settings → We.Rock Updates** on multisite). The page checks published releases in the [GitHub repository](https://github.com/wirrockendigital/We.Rock.WP.Safty.Lite) and offers a newer version for manual installation. The Plugins screen also shows a notice when a release is available. WordPress does not include MU plugins in its normal plugin update list.
+
+The update package replaces only `wp-content/mu-plugins/we-rock-wp-safety-lite/` after checking the release version, package structure, and SHA-256 digest. The stable `we-rock-wp-safety-lite.php` loader is installed separately. Keep a restorable site backup before updating; the updater retains the previous payload under `.we-rock-wp-safety-previous` for manual recovery. Root and uploads `.htaccess` rules, NinjaFirewall, and WP 2FA remain separate parts of the installation.
+
+If a later request fails after an update, use file access to move the current payload directory aside and rename `wp-content/mu-plugins/.we-rock-wp-safety-previous/` to `wp-content/mu-plugins/we-rock-wp-safety-lite/`. Then verify the site and investigate the failed release before retrying.
+
+If WordPress cannot write to the MU directory, follow the [manual update procedure](INSTALLATION.md#manual-mu-update-fallback) with authorized file access.
+
 ## Use the hardening features
 
 The default settings provide generic Core login errors, return HTTP 404 for anonymous numeric author probes and Core REST user enumeration, and disable pingback methods. The plugin also reports security-related site settings in Site Health. XML-RPC authentication and Application Passwords stay available by default so existing integrations can continue to work.

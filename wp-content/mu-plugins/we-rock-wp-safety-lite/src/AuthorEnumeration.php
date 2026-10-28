@@ -99,6 +99,7 @@ final class AuthorEnumeration {
 	 * @return string|null
 	 */
 	private static function get_author_query_value(): ?string {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput -- Read-only route matching validates the final value.
 		if ( ! isset( $_GET['author'] ) ) {
 			return null;
 		}
@@ -111,6 +112,7 @@ final class AuthorEnumeration {
 
 		return trim( (string) $value );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput
 
 	/**
 	 * Marks the current request as a 404 without exposing author details.

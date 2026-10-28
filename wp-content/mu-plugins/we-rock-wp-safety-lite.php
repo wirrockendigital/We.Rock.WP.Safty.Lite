@@ -1,8 +1,7 @@
 <?php
 /**
  * Plugin Name: We.Rock.WP.Safety.Lite
- * Description: Small MU plugin with stable, low-risk WordPress hardening defaults.
- * Version: 0.1.0
+ * Description: Stable loader for the We.Rock.WP.Safety.Lite MU plugin.
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: We.Rock
@@ -15,27 +14,28 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$we_rock_safety_lite_dir = __DIR__ . '/we-rock-wp-safety-lite';
-$we_rock_safety_lite_files = array(
-	$we_rock_safety_lite_dir . '/src/Config.php',
-	$we_rock_safety_lite_dir . '/src/LoginHardening.php',
-	$we_rock_safety_lite_dir . '/src/AuthorEnumeration.php',
-	$we_rock_safety_lite_dir . '/src/RestUsers.php',
-	$we_rock_safety_lite_dir . '/src/Pingbacks.php',
-	$we_rock_safety_lite_dir . '/src/XmlRpcAuth.php',
-	$we_rock_safety_lite_dir . '/src/ApplicationPasswords.php',
-	$we_rock_safety_lite_dir . '/src/SiteHealth.php',
-	$we_rock_safety_lite_dir . '/src/AdminNotices.php',
-	$we_rock_safety_lite_dir . '/src/Plugin.php',
-);
+// Keep this loader outside the replaceable release payload.
+$we_rock_safety_lite_bootstrap = __DIR__ . '/we-rock-wp-safety-lite/bootstrap.php';
 
-foreach ( $we_rock_safety_lite_files as $we_rock_safety_lite_file ) {
-	// Missing source files must not break the site.
-	if ( is_readable( $we_rock_safety_lite_file ) ) {
-		require_once $we_rock_safety_lite_file;
-	}
+if ( is_readable( $we_rock_safety_lite_bootstrap ) ) {
+	require_once $we_rock_safety_lite_bootstrap;
+} elseif ( function_exists( 'add_action' ) ) {
+	// A missing payload must leave WordPress usable and alert administrators.
+	add_action( 'admin_notices', 'we_rock_safety_lite_missing_payload_notice' );
+	add_action( 'network_admin_notices', 'we_rock_safety_lite_missing_payload_notice' );
 }
 
-if ( class_exists( '\WeRock\WPSafetyLite\Plugin' ) ) {
-	\WeRock\WPSafetyLite\Plugin::bootstrap();
+/**
+ * Reports a missing MU payload to administrators.
+ *
+ * @return void
+ */
+function we_rock_safety_lite_missing_payload_notice(): void {
+	if ( ! function_exists( 'current_user_can' ) || ! current_user_can( 'update_plugins' ) ) {
+		return;
+	}
+
+	echo '<div class="notice notice-error"><p>';
+	echo 'We.Rock.WP.Safety.Lite: MU plugin files are missing. Restore the plugin directory from a backup.';
+	echo '</p></div>';
 }

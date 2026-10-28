@@ -1,7 +1,7 @@
 # Keep generated distribution archives and local dependencies out of source control.
 /dist/
 /wp-content/mu-plugins/we-rock-wp-safety-lite/vendor/
-/.phpunit.result.cache
+.phpunit.result.cache
 
 # Keep site-specific NinjaFirewall exports and bundled rules private.
 /.ninjafirewall/

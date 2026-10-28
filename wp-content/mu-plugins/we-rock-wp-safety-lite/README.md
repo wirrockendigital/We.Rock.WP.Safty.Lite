@@ -1,6 +1,6 @@
 # We.Rock.WP.Safety.Lite
 
-We.Rock.WP.Safety.Lite ist ein kleines WordPress-MU-Plugin fuer stabile, risikoarme Haertungen in WordPress 6.5 oder neuer. Es laedt ohne Composer-Abhaengigkeiten zur Laufzeit, nutzt nur WordPress-Core-Hooks und fuehrt keine externen Netzwerkanfragen aus.
+We.Rock.WP.Safety.Lite ist ein kleines WordPress-MU-Plugin fuer stabile, risikoarme Haertungen in WordPress 6.5 oder neuer. Es laedt ohne Composer-Abhaengigkeiten zur Laufzeit und nutzt WordPress-Core-Hooks. Eine GitHub-Abfrage erfolgt nur fuer die Updateanzeige im Adminbereich.
 
 Der vollstaendige empfohlene Einsatz umfasst dieses MU-Plugin, die Hardening-Bloecke in der Root- und Upload-`.htaccess` sowie eine passend konfigurierte NinjaFirewall. Fuer die Absicherung von Benutzerkonten empfehlen wir zusaetzlich [WP 2FA von Melapress](https://wordpress.org/plugins/wp-2fa/). Der bevorzugte Installationsweg ist in der Repository-Datei `INSTALLATION.md` beschrieben. Anwender sind fuer die Pruefung der Regeln, Backups und die Funktion ihrer Website selbst verantwortlich.
 
@@ -18,13 +18,14 @@ Der vollstaendige empfohlene Einsatz umfasst dieses MU-Plugin, die Hardening-Blo
 
 ## Installation als MU-Plugin
 
-Die ZIP-Datei ist fuer eine Installation relativ zum WordPress-Root vorbereitet.
+1. Den Loader `wp-content/mu-plugins/we-rock-wp-safety-lite.php` aus dem Repository direkt ins MU-Plugin-Verzeichnis kopieren.
+2. `bootstrap.php`, `release.json` und `src/` in `wp-content/mu-plugins/we-rock-wp-safety-lite/` kopieren.
+3. WordPress-Adminbereich oeffnen und unter Werkzeuge > Website-Zustand die We.Rock-Pruefungen kontrollieren.
+4. Die Smoke-Test-Checkliste unter `deploy/SMOKE-TEST-CHECKLIST.md` ausfuehren.
 
-1. ZIP im WordPress-Root entpacken.
-2. Pruefen, dass `wp-content/mu-plugins/we-rock-wp-safety-lite.php` direkt im MU-Plugin-Verzeichnis liegt.
-3. Pruefen, dass `wp-content/mu-plugins/we-rock-wp-safety-lite/` die eigentlichen Plugin-Dateien enthaelt.
-4. WordPress-Adminbereich oeffnen und unter Werkzeuge > Website-Zustand die We.Rock-Pruefungen kontrollieren.
-5. Die Smoke-Test-Checkliste unter `deploy/SMOKE-TEST-CHECKLIST.md` ausfuehren.
+## Updates
+
+Unter **Werkzeuge > We.Rock Updates** zeigt das Plugin die installierte Version und veroeffentlichte GitHub-Releases an. Ein Administrator startet ein angebotenes Update manuell. Bei Multisite liegt die Seite unter den Netzwerk-Einstellungen. Nur das Plugin-Unterverzeichnis wird aktualisiert; der Loader bleibt stabil. Vor dem Update ist ein wiederherstellbares Backup erforderlich. Die vorherige Plugin-Version bleibt nach erfolgreichem Austausch unter `.we-rock-wp-safety-previous` fuer eine manuelle Wiederherstellung erhalten.
 
 ## Konfiguration
 
@@ -41,7 +42,7 @@ define( 'WE_ROCK_DISABLE_APPLICATION_PASSWORDS', false );
 define( 'WE_ROCK_ENABLE_SITE_HEALTH_TESTS', true );
 ```
 
-`WE_ROCK_SAFETY_DISABLED=true` ist der globale Kill-Switch. Wenn er aktiv ist, registriert das Plugin keine Hooks.
+`WE_ROCK_SAFETY_DISABLED=true` deaktiviert die Hardening-Hooks. Die Updateanzeige bleibt zur Wiederherstellung einer funktionierenden Version verfuegbar.
 
 `WE_ROCK_DISABLE_XMLRPC_AUTH=true` deaktiviert authentifizierte XML-RPC-Methoden ueber den offiziellen WordPress-Filter. Der `xmlrpc.php`-Endpunkt selbst bleibt erreichbar. Eine vollstaendige Endpunkt-Sperre ist eine separate Serverregel und wird in `deploy/README.md` beschrieben.
 

@@ -8,6 +8,8 @@ Das Format folgt [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), und d
 
 ### Added
 
+- Manuell ausloesbare MU-Payload-Updates aus veroeffentlichten GitHub-Releases mit Versions-, Paket- und SHA-256-Pruefung.
+- Stabiler MU-Loader und Release-Paketbau fuer den austauschbaren Plugin-Unterordner.
 - Lesende Site-Health-Pruefungen fuer NinjaFirewall, WP 2FA, Application-Password-Policy, XML-RPC-Policy, REST `users/me`, `DISALLOW_FILE_MODS` und Upload-Ausfuehrungsschutz.
 - Sparsame Admin-Hinweise fuer kritische Debug-Zustaende in Produktion.
 - Kompatibilitaet mit bestehenden Upload-Hardening-Markern wie `WE.ROCK.NO.EXECUTABLE.UPLOADS`.

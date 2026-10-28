@@ -39,6 +39,8 @@ final class PluginTest extends TestCase {
 		);
 		$GLOBALS['we_rock_test_environment']   = 'production';
 		$GLOBALS['we_rock_test_http_calls']    = 0;
+		$GLOBALS['we_rock_test_http_response'] = array();
+		$GLOBALS['we_rock_test_transients']    = array();
 		$GLOBALS['we_rock_test_mu_plugins']     = array();
 		$GLOBALS['we_rock_test_rest_status']    = 200;
 		unset( $GLOBALS['we_rock_test_application_passwords_disabled'] );
@@ -47,18 +49,20 @@ final class PluginTest extends TestCase {
 	}
 
 	/**
-	 * Ensures the kill switch prevents hook registration.
+	 * Ensures the kill switch leaves only the recovery updater available.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 * @return void
 	 */
-	public function test_kill_switch_registers_no_hooks(): void {
+	public function test_kill_switch_keeps_only_updater_hooks(): void {
 		define( 'WE_ROCK_SAFETY_DISABLED', true );
 
 		require dirname( __DIR__ ) . '/../we-rock-wp-safety-lite.php';
 
-		$this->assertSame( array(), $GLOBALS['we_rock_test_hooks'] );
+		$this->assertArrayNotHasKey( 'login_errors', $GLOBALS['we_rock_test_hooks']['filter'] ?? array() );
+		$this->assertArrayHasKey( 'admin_post_we_rock_safety_lite_update', $GLOBALS['we_rock_test_hooks']['action'] );
+		$this->assertSame( 0, $GLOBALS['we_rock_test_http_calls'] );
 	}
 
 	/**

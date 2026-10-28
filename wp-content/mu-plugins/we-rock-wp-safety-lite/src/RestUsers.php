@@ -78,6 +78,7 @@ final class RestUsers {
 	 * @return bool
 	 */
 	private static function is_current_http_core_users_route(): bool {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput -- Read-only route matching uses an exact allowlist.
 		$route = '';
 
 		if ( isset( $_GET['rest_route'] ) && is_scalar( $_GET['rest_route'] ) ) {
@@ -98,6 +99,7 @@ final class RestUsers {
 
 		return preg_match( '#^/wp/v2/users(?:/[0-9]+)?/?$#', $route ) === 1;
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput
 
 	/**
 	 * Reads or derives the REST namespace from the request route.

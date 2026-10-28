@@ -120,7 +120,9 @@ final class SiteHealth {
 		return self::result(
 			$is_good ? 'good' : 'critical',
 			self::esc_html__( 'Website- und Home-URL sollten HTTPS verwenden.' ),
-			$is_good ? self::esc_html__( 'Beide WordPress-Adressen verwenden HTTPS.' ) : self::esc_html__( 'Pruefe die WordPress-Adressen unter Einstellungen > Allgemein und stelle beide auf HTTPS um.' )
+			$is_good
+				? self::esc_html__( 'Beide WordPress-Adressen verwenden HTTPS.' )
+				: self::esc_html__( 'Pruefe die WordPress-Adressen unter Einstellungen > Allgemein und stelle beide auf HTTPS um.' )
 		);
 	}
 
@@ -236,7 +238,9 @@ final class SiteHealth {
 		return self::result(
 			$is_good ? 'good' : 'recommended',
 			self::esc_html__( 'Die Root-.htaccess sollte den We.Rock-Hardening-Block enthalten.' ),
-			$is_good ? self::esc_html__( 'Der Root-.htaccess-Markerblock wurde gefunden.' ) : self::esc_html__( 'Fuege den Inhalt aus deploy/root.htaccess.snippet manuell in die Root-.htaccess ein.' )
+			$is_good
+				? self::esc_html__( 'Der Root-.htaccess-Markerblock wurde gefunden.' )
+				: self::esc_html__( 'Fuege den Inhalt aus deploy/root.htaccess.snippet manuell in die Root-.htaccess ein.' )
 		);
 	}
 
@@ -261,7 +265,9 @@ final class SiteHealth {
 		return self::result(
 			$is_good ? 'good' : 'recommended',
 			self::esc_html__( 'Die Upload-.htaccess sollte einen We.Rock-Upload-Hardening-Markerblock enthalten.' ),
-			$is_good ? self::esc_html__( 'Ein kompatibler Upload-.htaccess-Markerblock wurde gefunden.' ) : self::esc_html__( 'Installiere deploy/uploads.htaccess manuell im Upload-Verzeichnis oder dokumentiere den bestehenden Upload-Hardening-Block.' )
+			$is_good
+				? self::esc_html__( 'Ein kompatibler Upload-.htaccess-Markerblock wurde gefunden.' )
+				: self::esc_html__( 'Installiere deploy/uploads.htaccess manuell im Upload-Verzeichnis oder dokumentiere den bestehenden Upload-Hardening-Block.' )
 		);
 	}
 
@@ -307,7 +313,9 @@ final class SiteHealth {
 		return self::result(
 			$is_blocked ? 'recommended' : 'good',
 			self::esc_html__( 'DISALLOW_FILE_MODS sollte Updates nicht unbeabsichtigt blockieren.' ),
-			$is_blocked ? self::esc_html__( 'DISALLOW_FILE_MODS ist aktiv. Das kann Core-, Plugin- und Theme-Updates blockieren und sollte bewusst dokumentiert sein.' ) : self::esc_html__( 'Updates sind nicht durch DISALLOW_FILE_MODS global blockiert.' )
+			$is_blocked
+				? self::esc_html__( 'DISALLOW_FILE_MODS ist aktiv. Das kann Core-, Plugin- und Theme-Updates blockieren und sollte bewusst dokumentiert sein.' )
+				: self::esc_html__( 'Updates sind nicht durch DISALLOW_FILE_MODS global blockiert.' )
 		);
 	}
 
@@ -334,10 +342,14 @@ final class SiteHealth {
 
 		if ( $config_disables ) {
 			$is_good     = ! $available;
-			$description = $is_good ? self::esc_html__( 'Application Passwords sind durch die We.Rock-Konfiguration deaktiviert.' ) : self::esc_html__( 'Application Passwords sollten deaktiviert sein, sind aber weiterhin verfuegbar.' );
+			$description = $is_good
+				? self::esc_html__( 'Application Passwords sind durch die We.Rock-Konfiguration deaktiviert.' )
+				: self::esc_html__( 'Application Passwords sollten deaktiviert sein, sind aber weiterhin verfuegbar.' );
 		} else {
 			$is_good     = $available;
-			$description = $is_good ? self::esc_html__( 'Application Passwords bleiben verfuegbar, damit REST-, Mobile- und Automationsintegrationen funktionieren.' ) : self::esc_html__( 'Application Passwords sind durch eine andere Komponente deaktiviert. Pruefe, ob REST- oder Automationsintegrationen sie benoetigen.' );
+			$description = $is_good
+				? self::esc_html__( 'Application Passwords bleiben verfuegbar, damit REST-, Mobile- und Automationsintegrationen funktionieren.' )
+				: self::esc_html__( 'Application Passwords sind durch eine andere Komponente deaktiviert. Pruefe, ob REST- oder Automationsintegrationen sie benoetigen.' );
 		}
 
 		return self::result(
@@ -365,7 +377,9 @@ final class SiteHealth {
 			$description = self::esc_html__( 'Die Root-.htaccess enthaelt einen XML-RPC-Sperrmarker. Das ist eine Server-Policy, nicht Teil der Plugin-Automatik.' );
 			$status      = 'good';
 		} elseif ( $auth_disabled_by_plugin && false === $auth_enabled ) {
-			$description = self::esc_html__( 'Authentifizierte XML-RPC-Methoden sind per We.Rock-Konfiguration deaktiviert. Der Endpunkt selbst wird dadurch nicht vollstaendig gesperrt.' );
+			$description = self::esc_html__(
+				'Authentifizierte XML-RPC-Methoden sind per We.Rock-Konfiguration deaktiviert. Der Endpunkt selbst wird dadurch nicht vollstaendig gesperrt.'
+			);
 			$status      = 'good';
 		} else {
 			$description = self::esc_html__( 'XML-RPC-Authentifizierung bleibt verfuegbar. Wenn der Endpunkt vollstaendig gesperrt werden soll, nutze eine separate Serverregel.' );
@@ -404,7 +418,9 @@ final class SiteHealth {
 		return self::result(
 			$is_good ? 'good' : 'recommended',
 			self::esc_html__( 'REST users/me sollte fuer angemeldete Administratoren nutzbar bleiben.' ),
-			$is_good ? self::esc_html__( 'Die authentifizierte REST-Route users/me ist erreichbar.' ) : self::esc_html__( 'Die authentifizierte REST-Route users/me war nicht erfolgreich. Pruefe REST-Sicherheitsregeln und Integrationen.' )
+			$is_good
+				? self::esc_html__( 'Die authentifizierte REST-Route users/me ist erreichbar.' )
+				: self::esc_html__( 'Die authentifizierte REST-Route users/me war nicht erfolgreich. Pruefe REST-Sicherheitsregeln und Integrationen.' )
 		);
 	}
 
@@ -432,7 +448,9 @@ final class SiteHealth {
 		return self::result(
 			$is_good ? 'good' : 'recommended',
 			self::esc_html__( 'Uploads sollten PHP und andere ausfuehrbare Dateitypen nicht ausfuehren.' ),
-			$is_good ? self::esc_html__( 'Die Upload-.htaccess enthaelt eine erkennbare Sperre fuer ausfuehrbare Uploads.' ) : self::esc_html__( 'Pruefe die Upload-.htaccess oder installiere deploy/uploads.htaccess manuell.' )
+			$is_good
+				? self::esc_html__( 'Die Upload-.htaccess enthaelt eine erkennbare Sperre fuer ausfuehrbare Uploads.' )
+				: self::esc_html__( 'Pruefe die Upload-.htaccess oder installiere deploy/uploads.htaccess manuell.' )
 		);
 	}
 
@@ -597,7 +615,7 @@ final class SiteHealth {
 	/**
 	 * Checks whether a readable file contains any marker pair.
 	 *
-	 * @param string                  $path         File path.
+	 * @param string                        $path         File path.
 	 * @param array<int, array<int,string>> $marker_pairs Marker pairs.
 	 * @return bool
 	 */
