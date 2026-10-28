@@ -3,6 +3,8 @@
 Die vollstaendigen, manuell anzuwendenden Serverregeln stehen in der
 Repository-Datei `MANUAL-HARDENING.txt`. Die Snippets in diesem Verzeichnis
 sind kleinere Vorlagen und enthalten nicht alle dort dokumentierten Regeln.
+Fuer den empfohlenen Gesamt-Stack gelten `INSTALLATION.md` und
+`NINJAFIREWALL-SETTINGS.md` im Repository-Root.
 
 Diese Dateien sind Vorlagen. Sie werden vom Plugin nie automatisch angewendet und muessen vor der Nutzung in einer Staging-Umgebung getestet werden.
 
@@ -11,9 +13,10 @@ Diese Dateien sind Vorlagen. Sie werden vom Plugin nie automatisch angewendet un
 1. MU-Plugin-Dateien nach `wp-content/mu-plugins/` kopieren.
 2. Website, Login, Adminbereich und REST API testen.
 3. Optional `deploy/wp-config.snippet.php` manuell in `wp-config.php` uebernehmen.
-4. Optional `deploy/root.htaccess.snippet` manuell in die Root-`.htaccess` uebernehmen.
-5. Optional `deploy/uploads.htaccess` als `.htaccess` in `wp-content/uploads/` installieren.
-6. Site Health pruefen und danach die Smoke-Test-Checkliste ausfuehren.
+4. Den Root-Block aus `MANUAL-HARDENING.txt` manuell in die Root-`.htaccess` uebernehmen.
+5. Den Upload-Block aus `MANUAL-HARDENING.txt` manuell in `wp-content/uploads/.htaccess` integrieren.
+6. NinjaFirewall installieren und gemaess `NINJAFIREWALL-SETTINGS.md` konfigurieren.
+7. Site Health pruefen und danach die Smoke-Test-Checkliste ausfuehren.
 
 ## deploy/root.htaccess.snippet
 

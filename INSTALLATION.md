@@ -1,0 +1,30 @@
+# Install We.Rock.WP.Safety.Lite with an AI agent
+
+This is the preferred installation path for a WordPress administrator who authorizes an AI agent to work on a specific site. The agent installs the MU plugin, merges the two server rule blocks, applies the recommended NinjaFirewall settings, and verifies the running site. All three layers are required for the complete stack. Treat this as an execution procedure for the named target, not as permission to change other sites.
+
+## Inputs the agent needs
+
+- The exact WordPress site and environment, with authorized WordPress administrator and file access (SSH, SFTP, or a hosting file manager).
+- The actual WordPress document root and web server type. The `.htaccess` blocks apply to Apache or compatible LiteSpeed servers with the required modules and overrides enabled.
+- A current, restorable backup and a way to restore the original root `.htaccess`, uploads `.htaccess`, and any existing MU plugin files if the checks fail.
+- A staging site for first application where practical, especially before enabling the one-year HSTS header or changing a Content Security Policy.
+
+Do not infer the document root from a hostname or reuse paths from another installation. Never put credentials, server paths, email addresses, exported firewall rules, or backup files into this repository or a public webroot.
+
+## Agent procedure
+
+1. **Get the source.** Fetch the current project from [GitHub](https://github.com/wirrockendigital/we-rock-wp-safety-lite) into a temporary workspace and read this procedure, the hardening text, and the NinjaFirewall settings guide. Deploy source files from `wp-content/mu-plugins/`; do not use an unrelated local ZIP or a site-specific firewall export.
+2. **Identify the installation.** Confirm the site URL, document root, WordPress and PHP versions, server type, active plugins, existing MU plugins, NinjaFirewall status, and both current `.htaccess` files. If WP-CLI is available, use read-only checks such as `wp --path="$WP_ROOT" core is-installed`, `wp --path="$WP_ROOT" option get home`, and `wp --path="$WP_ROOT" plugin list --status=must-use`. Keep the target path explicit in every command.
+3. **Capture a rollback point.** Back up the original files and any existing `we-rock-wp-safety-lite` loader/source outside the public webroot. Record their hashes, ownership, permissions, and the expected restore procedure. Confirm the backup can be read before editing. Preserve unrelated WordPress, host, and NinjaFirewall sections.
+4. **Prepare NinjaFirewall.** Install or update [NinjaFirewall (WP Edition)](https://wordpress.org/plugins/ninjafirewall/) using WordPress's normal plugin workflow. Follow its own setup wizard, confirm the WAF is enabled and reports the intended operating mode, then apply [NINJAFIREWALL-SETTINGS.md](NINJAFIREWALL-SETTINGS.md) through its UI or supported controls. Do not import the private site export or copy an `auto_prepend_file` path between sites. If NinjaFirewall edits the root `.htaccess`, finish its setup before merging this project's block. If access or authorization for this step is missing, report that the stack installation is incomplete.
+5. **Install the MU plugin.** Copy the repository's `wp-content/mu-plugins/we-rock-wp-safety-lite.php` into the target `wp-content/mu-plugins/` and copy the `src/` directory into `wp-content/mu-plugins/we-rock-wp-safety-lite/src/`. Preserve an existing installation until the new files have been checked. WordPress loads the top-level MU loader automatically; no plugin activation is needed.
+6. **Merge the root rules.** From [MANUAL-HARDENING.txt](MANUAL-HARDENING.txt), take exactly the lines from `# BEGIN WE.ROCK.WP.HARDENING` through `# END WE.ROCK.WP.HARDENING`. Insert that block once in the WordPress root `.htaccess`, outside the WordPress-managed rewrite section. If a block with the same markers already exists, compare it and replace only that block after review. Stop if markers are duplicated or incomplete. Keep NinjaFirewall's own integration block and every other unrelated rule intact.
+7. **Merge the uploads rules.** Take exactly the lines from `# BEGIN WE.ROCK.NO.EXECUTABLE.UPLOADS` through `# END WE.ROCK.NO.EXECUTABLE.UPLOADS` and add them once to `wp-content/uploads/.htaccess`. If that file exists, merge with it; do not overwrite it. Reconcile any older upload-execution block before adding a second rule set.
+8. **Check the result immediately.** Verify that both files contain one complete marker pair, the MU plugin is loaded, NinjaFirewall is operational, and the homepage, login, admin area, media URLs, uploads, and REST API work. Review actual response headers over HTTPS. On staging, confirm a harmless executable test file in uploads is denied and remove it afterward. Check anonymous numeric author URLs and Core REST user routes, plus authenticated REST access needed by the site.
+9. **Finish with evidence.** Read back the saved file contents and active settings, compare them with the intended blocks, and record the checks and any site-specific exceptions for the site owner. If the site returns errors or a required integration fails, restore the backed-up files and plugin state, then verify recovery.
+
+When the target uses Nginx or does not process `.htaccess`, install the MU plugin and use equivalent server rules only after the target's configuration path and authority are known. Do not claim the two `.htaccess` tasks are complete when the server ignores those files.
+
+## Settings ownership
+
+The MU plugin controls WordPress hooks and reports Site Health findings. The root and uploads `.htaccess` files provide server-level rules, including security response headers and blocking executable uploads. NinjaFirewall supplies its maintained WAF rules, request inspection, notifications, and File Guard. The recommended NinjaFirewall profile leaves its HTTP response-header controls off because the corresponding security headers in this setup are managed in the root `.htaccess`. Its cookie-flag controls are also off in that UI; the `.htaccess` blocks here do not set those flags, so assess them separately for the target site.
